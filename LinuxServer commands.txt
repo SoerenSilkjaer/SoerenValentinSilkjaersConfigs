@@ -1,0 +1,7 @@
+//Plex server with autostart
+docker run --net=host --name plex -v /media/NAS/Videos:/config -d --restart=always linuxserver/plex:latest
+
+//Auto mount NAS drive on startup
+//Add this to end of the /etc/fstab file to auto mount the usb drive on boot. The UUID has to be the UUID of your drive. You can see it by using sudo blkid
+# Nas drive
+UUID=BE3618E63618A187 /media/NAS auto defaults 0 0
