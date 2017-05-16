@@ -5,3 +5,86 @@ docker run --net=host --name plex -v /media/NAS/Videos:/config -d --restart=alwa
 //Add this to end of the /etc/fstab file to auto mount the usb drive on boot. The UUID has to be the UUID of your drive. You can see it by using sudo blkid
 # Nas drive
 UUID=BE3618E63618A187 /media/NAS auto defaults 0 0
+
+
+//Mysql server docker run commmand
+docker run --name mysqlServerFrejasdal -e MYSQL_ROOT_PASSWORD=mypassword -d --restart=always --net=host mysql
+
+//Tomcat server INFO
+//TomcatServer docker run command
+docker run --name tomcatServerFrejasdal -d --net=host --restart=always tomcat:8.0.42-jre8
+//Tomcat server path is inside /usr/local/tomcat
+//Context path inside server.xml config file:
+        <Context path=""
+                docBase="frejasdalWebApp"
+                cachingAllowed="false">
+                <WatchedResource>WEB-INF/web.xml</WatchedResource>
+        </Context>
+
+
+//Raspberry pi start
+//
+//
+//Raspberry pi ffmpeg with x264. alsa and libfdk-aac compilation sequence
+// http://praveen.life/2016/06/26/compile-ffmpeg-for-raspberry-pi-3/
+
+sudo git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+cd ffmpeg
+sudo mkdir dependencies
+cd dependencies/
+sudo mkdir output
+
+sudo git clone http://git.videolan.org/git/x264.git
+cd x264/
+sudo ./configure --enable-static --prefix=/home/pi/ffmpeg/dependencies/output/
+sudo make -j4
+sudo make install
+cd ..
+
+sudo wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.1.tar.bz2
+sudo tar xjf alsa-lib-1.1.1.tar.bz2
+cd alsa-lib-1.1.1/
+sudo ./configure --prefix=/home/pi/ffmpeg/dependencies/output
+sudo make -j4
+sudo make install
+cd ..
+
+sudo apt-get install pkg-config autoconf automake libtool
+
+
+sudo git clone https://github.com/mstorsjo/fdk-aac.git
+cd fdk-aac
+sudo ./autogen.sh
+sudo ./configure --enable-shared --enable-static
+sudo make -j4
+sudo make install
+sudo ldconfig
+cd ..
+
+cd ..
+sudo ./configure --prefix=/home/pi/ffmpeg/dependencies/output \
+--enable-gpl --enable-libx264 --enable-nonfree --enable-libfdk_aac \
+--enable-omx --enable-omx-rpi \
+--extra-cflags="-I/home/pi/ffmpeg/dependencies/output/include" \
+--extra-ldflags="-L/home/pi/ffmpeg/dependencies/output/lib" \
+--extra-libs="-lx264 -lpthread -lm -ldl"
+sudo make -j4
+sudo make install
+//
+//
+//Raspberry pi end
+
+
+
+
+//Useful docker commands start:
+//
+//
+
+docker update --restart=always <container>
+docker exec -it <container> /bin/bash
+
+//
+//
+//Useful docker commands end
+
