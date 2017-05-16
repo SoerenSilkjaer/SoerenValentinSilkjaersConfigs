@@ -1,0 +1,66 @@
+//Raspberry pi start
+//
+//
+
+//Raspberry pi ffmpeg with x264. alsa and libfdk-aac compilation sequence
+// http://praveen.life/2016/06/26/compile-ffmpeg-for-raspberry-pi-3/
+
+sudo git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+cd ffmpeg
+sudo mkdir dependencies
+cd dependencies/
+sudo mkdir output
+
+sudo git clone http://git.videolan.org/git/x264.git
+cd x264/
+sudo ./configure --enable-static --prefix=/home/pi/ffmpeg/dependencies/output/
+sudo make -j4
+sudo make install
+cd ..
+
+sudo wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.1.tar.bz2
+sudo tar xjf alsa-lib-1.1.1.tar.bz2
+cd alsa-lib-1.1.1/
+sudo ./configure --prefix=/home/pi/ffmpeg/dependencies/output
+sudo make -j4
+sudo make install
+cd ..
+
+sudo apt-get install pkg-config autoconf automake libtool
+
+
+sudo git clone https://github.com/mstorsjo/fdk-aac.git
+cd fdk-aac
+sudo ./autogen.sh
+sudo ./configure --enable-shared --enable-static
+sudo make -j4
+sudo make install
+sudo ldconfig
+cd ..
+
+cd ..
+sudo ./configure --prefix=/home/pi/ffmpeg/dependencies/output \
+--enable-gpl --enable-libx264 --enable-nonfree --enable-libfdk_aac \
+--enable-omx --enable-omx-rpi \
+--extra-cflags="-I/home/pi/ffmpeg/dependencies/output/include" \
+--extra-ldflags="-L/home/pi/ffmpeg/dependencies/output/lib" \
+--extra-libs="-lx264 -lpthread -lm -ldl"
+sudo make -j4
+sudo make install
+
+//Streaming start
+//
+//
+//RPI
+sysdefault:C920
+sysdefault:CARD=CODEC
+//Video and audio
+sudo /home/pi/ffmpeg/dependencies/output/bin/ffmpeg -f video4linux2 -pix_fmt h264 -input_format h264 -video_size 1920x1080 -i /dev/video0 -f alsa -ac 2 -ar 44100 -i sysdefault:CARD=CODEC -vcodec copy -acodec libfdk_aac -f flv rtmp://192.168.1.27:1935/live/test
+//
+//
+//Streaming end
+
+
+//
+//
+//Raspberry pi end
