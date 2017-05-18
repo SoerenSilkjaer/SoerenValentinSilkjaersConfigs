@@ -55,7 +55,19 @@ sudo make install
 sysdefault:C920
 sysdefault:CARD=CODEC
 //Video and audio
-sudo /home/pi/ffmpeg/dependencies/output/bin/ffmpeg -f video4linux2 -pix_fmt h264 -input_format h264 -video_size 1920x1080 -i /dev/video0 -f alsa -ac 2 -ar 44100 -i sysdefault:CARD=CODEC -vcodec copy -acodec libfdk_aac -f flv rtmp://192.168.1.27:1935/live/test
+docker run --name ffmpegstream --privileged sorenvalentin/rpi-arm-ffmpeg-h264-alsa ffmpeg -f video4linux2 -pix_fmt h264 -input_format h264 -video_size 1920x1080 -i /dev/video0 -f alsa -ac 2 -ar 44100 -i sysdefault:CARD=CODEC -vcodec copy -acodec libfdk_aac -f flv <RTMP URL>
+
+//DOCKER stream and audio file with timestamp
+docker run -d --name ffmpegstreamandaudiorecord --privileged -v /etc/localtime:/etc/localtime:ro -v /home/pi/output:/usr/output/ sorenvalentin/rpi-arm-ffmpeg-h264-alsa ffmpeg -framerate 30 -f video4linux2 -pix_fmt h264 -input_format h264 -video_size 1920x1080 -i /dev/video0 -f alsa -ac 2 -ar 44100 -i sysdefault:CARD=CODEC -vcodec copy -acodec libfdk_aac -f flv <RTMP URL> -acodec libfdk_aac -vn -async 2 /usr/output/eurolife_`date +%Y-%m-%d_%H:%M:%S`.aac
+
+//stream and audio file with timestamp
+sudo /home/pi/ffmpeg/dependencies/output/bin/ffmpeg \
+-framerate 30 -f video4linux2 -pix_fmt h264 -input_format h264 -video_size 1920x1080 -i /dev/video0 \
+-f alsa -ac 2 -ar 44100 -i sysdefault:CARD=CODEC \
+-vcodec copy -acodec libfdk_aac \
+-async 2 -f flv <RTMP URL> \
+-acodec libfdk_aac -vn \
+-async 2 /home/pi/output/eurolife_`date +%Y-%m-%d_%H:%M:%S`.aac
 //
 //
 //Streaming end
