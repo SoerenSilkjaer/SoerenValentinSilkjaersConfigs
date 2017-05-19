@@ -10,6 +10,15 @@ UUID=BE3618E63618A187 /media/NAS auto defaults 0 0
 //Mysql server docker run commmand
 docker run --name mysqlServerFrejasdal -e MYSQL_ROOT_PASSWORD=mypassword -d --restart=always --net=host mysql
 
+//Samba docker run command
+docker run -td \
+    --publish 445:445 \
+    --publish 137:137 \
+    --publish 138:138 \
+    --publish 139:139 \
+    --volume /media/NAS:/srv \
+    jenserat/samba-publicshare
+
 //Tomcat server INFO
 //TomcatServer docker run command
 docker run --name tomcatServerFrejasdal -d --net=host --restart=always tomcat:8.0.42-jre8
