@@ -70,7 +70,7 @@ sudo /home/pi/ffmpeg/dependencies/output/bin/ffmpeg \
 -async 2 /home/pi/output/eurolife_`date +%Y-%m-%d_%H:%M:%S`.aac
 
 //Stream and audio file with timestamp using script
-docker run -d --restart=always --name ffmpegstreamandaudiorecord --privileged -v /home/pi/output:/usr/output/ -v /home/pi/scripts:/home/ sorenvalentin/rpi-arm-ffmpeg-h264-alsa /home/start.sh
+docker run -d --restart=always --name ffmpegstreamandaudiorecord --privileged -v /home/pi/output:/usr/output/ -v /home/pi/scripts:/home/ -v /etc/localtime:/etc/localtime:ro sorenvalentin/rpi-arm-ffmpeg-h264-alsa /home/start.sh
 //
 //
 //Streaming end
