@@ -10,8 +10,14 @@ UUID=BE3618E63618A187 /media/NAS auto defaults 0 0
 //Mysql server docker run commmand
 docker run --name mysqlServerFrejasdal -e MYSQL_ROOT_PASSWORD=mypassword -d --restart=always --net=host mysql
 
-//Samba docker run command
-docker run -td \
+//Mysql backup docker run commadn
+docker run -d --restart=always -e DB_USER=<username> -e DB_PASS=<password> -e DB_DUMP_FREQ=1440 -e DB_DUMP_TARGET=/db --link mysql:db -v /media/NAS/databasebackup:/db deitch/mysql-backup
+
+//Mysql restore from database dump file
+docker run -e DB_USER=<username> -e DB_PASS=<password> -e DB_RESTORE_TARGET=/backup/db_backup_20170519203435.gz --link mysql:db -v /media/NAS/databasebackup:/backup deitch/mysql-backup
+
+//Samba docker run command. Access with: "\\svs.ubuntuserver" or "\\192.168.1.27"
+docker run -td --restart=always --name samba \
     --publish 445:445 \
     --publish 137:137 \
     --publish 138:138 \
