@@ -37,6 +37,10 @@ docker run --name tomcatServerFrejasdal -d --net=host --restart=always tomcat:8.
         </Context>
 
 
+//Torrent server
+docker run -d --restart=always --name rtorrent -p 49184:49184 -p 3000:3000 -v /media/NAS/Videos:/data wonderfall/rtorrent-flood
+
+
 //Useful docker commands start:
 //
 //
