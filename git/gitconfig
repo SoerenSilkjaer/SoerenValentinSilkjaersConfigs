@@ -1,0 +1,88 @@
+[user]
+	name = Søren Valentin Silkjær
+	email = soren.hansen@jp.dk
+[alias]
+  git = !exec git
+  co = checkout
+  aa = add --all .
+  br = branch
+  ci = commit
+  stash-all = stash save --include-untracked
+  fu = reset --hard
+  # Log display from screencast, with train tracks.
+  l = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+  # Alternate log display from Scott Chacon
+  lol = log --pretty=oneline --abbrev-commit --graph --decorate
+  # Other useful aliases:
+  unstage = reset HEAD
+  staged = diff --cached
+  unstaged = diff
+  current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+  # Usage: git track origin/feature-123-login-form
+  track = checkout -t
+  # http://haacked.com/archive/2014/07/28/github-flow-aliases/
+  # pull - just a bit more advanced
+  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  cob = checkout -b
+  cm = !git add -A && git commit -m
+  # adds even untracked files
+  save = !git add -A && git commit -m 'SAVEPOINT'
+  # addes tracked files
+  wip = !git add -u && git commit -m "WIP" 
+  # reset last commit but keeps it in the working dir
+  undo = reset HEAD~1 --mixed
+  amend = commit -a --amend
+  # resets last commit but keeps it in the reflog
+  wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  # delete merged branches
+  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
+  # switch to master, update from github and delete merged branched
+  bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+    stats = shortlog -sn
+	d = difftool
+[apply]
+  whitespace = warn
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
+[help]
+  autocorrect = 1
+[status]
+  submodule = 1
+[push]
+  # Only push branches that have been set up to track a remote branch.
+	default = current
+[merge]
+	keepBackup = false;
+	tool = p4merge
+    ff = only
+    # I pretty much never mean to do a real merge, since I use a rebase workflow.
+    # Note: this global option applies to all merges, including those done during a git pull
+    # https://git-scm.com/docs/git-config#git-config-mergeff
+[push]
+  default = simple
+  # "push the current branch back to the branch whose changes are usually integrated into the current branch"
+  # "refuse to push if the upstream branch’s name is different from the local one"
+  # https://git-scm.com/docs/git-config#git-config-pushdefault
+  followTags = true
+  # Because I get sick of telling git to do it manually
+  # https://git-scm.com/docs/git-config#git-config-pushfollowTags
+[status]
+  showUntrackedFiles = all
+  # Sometimes a newly-added folder, since it's only one line in git status, can slip under the radar.
+  # https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
+[core]
+	editor = vim
+	excludesfile = .ensime/
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[difftool]
+	prompt = false
+[diff]
+	tool = vimdiff
+          guitool = meld
+[difftool "meld"]
+      path = /usr/bin/meld
