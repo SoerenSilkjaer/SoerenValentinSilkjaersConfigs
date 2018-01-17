@@ -114,6 +114,9 @@ bindsym Mod1+Shift+minus move scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym Mod1+minus scratchpad show
 
+# Remove mouse focus
+focus_follows_mouse no
+
 # Name the workspaces
 set $tag1 "1: term"
 set $tag2 "2: code"
@@ -150,9 +153,9 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Program assigns
 assign [class="google-chrome-stable"] $tag3
 assign [class="idea-intellij"] $tag2
-assign [class="Slack"] $tag6
+assign [class="slack"] $tag6
 assign [class="evolution"] $tag6
-assign [class="Skype"] $tag7
+assign [class="skype"] $tag7
 assign [class="skypeforlinux"] $tag7
 assign [class="gnome-terminal"] $tag1
 
