@@ -151,13 +151,13 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # Program assigns
-assign [class="google-chrome-stable"] $tag3
+assign [class="Google-chrome-stable"] $tag3
 assign [class="idea-intellij"] $tag2
-assign [class="slack"] $tag6
-assign [class="evolution"] $tag6
-assign [class="skype"] $tag7
+assign [class="Slack"] $tag6
+assign [class="Evolution"] $tag4
+assign [class="Skype"] $tag7
 assign [class="skypeforlinux"] $tag7
-assign [class="gnome-terminal"] $tag1
+assign [class="Gnome-terminal"] $tag1
 
 # reload the configuration file
 bindsym Mod1+Shift+c reload
