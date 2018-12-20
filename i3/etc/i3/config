@@ -10,6 +10,10 @@
 #
 set $mod Mod1
 
+#Toggle keyboard 
+bindsym Mod1+Shift+F1 exec setxkbmap -layout us -variant mac
+bindsym Mod1+Shift+F2 exec setxkbmap -layout dk
+
 #startup apps
 exec --no-startup-id slack
 exec --no-startup-id skypeforlinux
