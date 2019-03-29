@@ -137,7 +137,7 @@ exec --no-startup-id gnome-terminal
 
 # Program assigns
 assign [class="(?i)Gnome-terminal"] $tag1
-assign [class="(?i)intellij-idea-ultimate"] $tag2
+assign [class="(?i)idea"] $tag2
 assign [class="(?i)Chromium"] $tag3
 assign [class="(?i)Slack"] $tag5
 assign [class="(?i)Evolution"] $tag4
