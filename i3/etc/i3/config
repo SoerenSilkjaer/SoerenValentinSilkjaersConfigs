@@ -9,6 +9,10 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+#Audio
+exec_always start-pulseaudio-x11
+
+
 #Toggle keyboard 
 bindsym Mod1+Shift+F1 exec setxkbmap -layout us -variant mac
 bindsym Mod1+Shift+F2 exec setxkbmap -layout dk
@@ -50,6 +54,7 @@ bindsym $mod+d exec dmenu_run
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
+
 bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
