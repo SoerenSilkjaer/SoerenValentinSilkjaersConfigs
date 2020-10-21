@@ -106,7 +106,7 @@ bindsym $mod+a focus parent
 set $tag1 "1: term"
 set $tag2 "2: code"
 set $tag3 "3: www"
-set $tag4 "4: mail"
+set $tag4 "4: teams"
 set $tag5 "5: slack"
 set $tag6 "6: music"
 
@@ -134,17 +134,21 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
-#startup apps
+#startup commands
 exec --no-startup-id slack
 exec --no-startup-id chromium
 exec --no-startup-id evolution
 exec --no-startup-id gnome-terminal
+exec --no-startup-id teams
+exec --no-startup-id intellij-idea-ultimate
+exec setxkbmap -layout us -variant mac
 
 # Program assigns
 assign [class="(?i)Gnome-terminal"] $tag1
+assign [class="(?i)IDEA"] $tag2
 assign [class="(?i)Chromium"] $tag3
+assign [class="(?i)Teams"] $tag4
 assign [class="(?i)Slack"] $tag5
-assign [class="(?i)Evolution"] $tag4
 
 # Remove mouse focus
 focus_follows_mouse no
