@@ -28,3 +28,6 @@ aws iam list-access-keys
 aws iam update-access-key --access-key-id {GAMMEL_KEY_ID} --status Inactive
 aws iam delete-access-key --access-key-id {GAMMEL_KEY_ID}
 ```
+
+# Screen recording
+```ffmpeg -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0 -f pulse -ac 2 -i default -vcodec vp8 -acodec libvorbis myvideo_$(date +%d_%B_%Y_%H:%M).webm```
