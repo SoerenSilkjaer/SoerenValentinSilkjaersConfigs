@@ -34,7 +34,9 @@ aws iam delete-access-key --access-key-id {GAMMEL_KEY_ID}
 
 # SSH Tunneling with ssh gateways
 Step 1. Binds localhost:1222 to a tunnel to z.z.z.z that goes through x.x.x.x on the way: 
+
 ```ssh -i "sshkey.pem" ec2-user@x.x.x.x -L 1222:z.z.z.z:22```
 
 Step 2: Binds localhost:12345 to a tunnel to q.q.q.q that goes through step 1 on the way
+
 ```ssh -i "sshkey.pem" ec2-user@127.0.0.1 -p 1222 -L 12345:q.q.q.q:3306```
