@@ -1,0 +1,300 @@
+# Sørens custom config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+#
+# Some dependencies need installation for this config to work:
+# sudo apt install sway waybar swaylock fonts-font-awesome ybacklight pavucontrol
+#
+#
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod1
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Your preferred terminal emulator
+set $term gnome-terminal
+
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu ~/.config/sway/bin/rofi_app_launcher
+
+# Name the workspaces
+set $tag1 "1: term"
+set $tag2 "2: code"
+set $tag3 "3: www"
+set $tag4 "4: teams"
+set $tag5 "5: etc"
+set $tag6 "6: music"
+set $tag7 "7:"
+set $tag8 "8: office"
+set $tag9 "9:"
+set $tag10 "10:"
+
+include /etc/sway/config-vars.d/*
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 12
+
+#startup commands
+exec --no-startup-id google-chrome
+exec --no-startup-id gnome-terminal
+exec --no-startup-id export _JAVA_AWT_WM_NONREPARENTING=1 && intellij-idea-ultimate
+exec --no-startup-id nm-applet # Network icon
+
+# Program assigns
+# Check class by using xprop command
+# Read i3 documentation for selectors https://i3wm.org/docs/userguide.html#command_criteria
+assign [class="(?i)Gnome-terminal"] $tag1
+assign [class="(?i)IDEA"] $tag2
+assign [class="(?i)google-chrome"] $tag3
+assign [title="(?i)Google Chrome"] $tag3
+assign [class="(?i)Teams"] $tag4
+assign [class="(?i)Slack"] $tag5
+assign [class="(?i)libreoffice-startcenter"] $tag8
+assign [class="(?i)soffice"] $tag8
+assign [class="(?i)libreoffice"] $tag8
+
+### Output configuration
+#
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+output HDMI-A-1 pos 0 0 res 3440x1440@99.982002Hz
+
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+# default keyboard layout
+input "1:1:AT_Translated_Set_2_keyboard" {
+   xkb_layout dk
+}
+
+# custom layout for an external keyboard
+input "10730:258:Kinesis_Advantage2_Keyboard" {
+   xkb_layout us
+   xkb_variant mac
+}
+
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+	# Switch to workspace
+	bindsym $mod+1 workspace $tag1
+	bindsym $mod+2 workspace $tag2
+	bindsym $mod+3 workspace $tag3
+	bindsym $mod+4 workspace $tag4
+	bindsym $mod+5 workspace $tag5
+	bindsym $mod+6 workspace $tag6
+	bindsym $mod+7 workspace $tag7
+	bindsym $mod+8 workspace $tag8
+	bindsym $mod+9 workspace $tag9
+	bindsym $mod+0 workspace $tag10
+	# move focused container to workspace
+	bindsym $mod+Shift+1 move container to workspace $tag1
+	bindsym $mod+Shift+2 move container to workspace $tag2
+	bindsym $mod+Shift+3 move container to workspace $tag3
+	bindsym $mod+Shift+4 move container to workspace $tag4
+	bindsym $mod+Shift+5 move container to workspace $tag5
+	bindsym $mod+Shift+6 move container to workspace $tag6
+	bindsym $mod+Shift+7 move container to workspace $tag7
+	bindsym $mod+Shift+8 move container to workspace $tag8
+	bindsym $mod+Shift+9 move container to workspace $tag9
+	bindsym $mod+Shift+0 move container to workspace $tag10
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Volume control
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Sreen brightness controls
+# enable passwordless sudo for ybacklight, run the following: echo "soren ALL=NOPASSWD: /usr/bin/ybacklight" > /etc/sudoers.d/ybacklight
+bindsym --locked XF86MonBrightnessUp exec sudo ybacklight -inc 5 # increase screen brightness
+bindsym --locked XF86MonBrightnessDown exec sudo ybacklight -dec 5 # decrease screen brightness
+
+# Shutdown, reboot, lock screen
+set $Locker swaylock -f -F -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png -c 000000
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id swaymsg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+Escape mode "$mode_system"
+
+# Floating windows
+#for_window [window_role="task_dialog|bubble|page-info|Preferences|pop-up"] floating enable
+#for_window [window_role="Open Files"] floating enable sticky
+#for_window [window_role="File Operation Progress"] floating enable sticky
+#for_window [window_type="dialog"] floating enable
+#for_window [window_type="menu"] floating enable
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+}
+
+include /etc/sway/config.d/*
