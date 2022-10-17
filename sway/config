@@ -4,14 +4,15 @@
 #
 # Read `man 5 sway` for a complete reference.
 #
-# Some dependencies need installation for this config to work:
-# sudo apt install sway waybar swaylock fonts-font-awesome ybacklight pavucontrol
+# Some dependencies need installation for this config to work. Run the following commands:
+# sudo apt install sway waybar swaylock fonts-font-awesome ybacklight pavucontrol slurp grim pinta
 #
 #
 
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
+# run xmodmap to see options
 set $mod Mod1
 
 # Home row direction keys, like vim
@@ -48,7 +49,7 @@ include /etc/sway/config-vars.d/*
 font pango:DejaVu Sans Mono 12
 
 #startup commands
-exec --no-startup-id google-chrome
+exec --no-startup-id brave-browser --enable-features=UseOzonePlatform --ozone-platform=wayland
 exec --no-startup-id gnome-terminal
 exec --no-startup-id export _JAVA_AWT_WM_NONREPARENTING=1 && intellij-idea-ultimate
 exec --no-startup-id nm-applet # Network icon
@@ -58,9 +59,12 @@ exec --no-startup-id nm-applet # Network icon
 # Read i3 documentation for selectors https://i3wm.org/docs/userguide.html#command_criteria
 assign [class="(?i)Gnome-terminal"] $tag1
 assign [class="(?i)IDEA"] $tag2
+assign [class="(?i)brave-browser"] $tag3
+assign [title="(?i)brave"] $tag3
 assign [class="(?i)google-chrome"] $tag3
 assign [title="(?i)Google Chrome"] $tag3
 assign [class="(?i)Teams"] $tag4
+assign [title="(?i)Teams"] $tag4
 assign [class="(?i)Slack"] $tag5
 assign [class="(?i)libreoffice-startcenter"] $tag8
 assign [class="(?i)soffice"] $tag8
@@ -78,7 +82,8 @@ set $laptop eDP-1
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 
-output HDMI-A-1 pos 0 0 res 3440x1440@99.982002Hz
+output HDMI-A-1 pos 0 0 res 3440x1440@99.982Hz
+#output eDP-4 pos 0 0 res 3440x1440@99.982Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
@@ -253,6 +258,8 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+bindsym $mod+p exec grim $(xdg-user-dir PICTURES)/grim/$(date +'%s_grim.png') && pinta ~/Pictures/grim/$(date +'%s_grim.png')
 
 # Volume control
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle

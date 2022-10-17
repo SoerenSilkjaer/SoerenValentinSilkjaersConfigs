@@ -9,12 +9,12 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# alt as mod
+set $mod Mod1
+
 #Toggle keyboard 
 bindsym $mod+Shift+F1 exec setxkbmap -layout us -variant mac
 bindsym $mod+Shift+F2 exec setxkbmap -layout dk
-
-# alt as mod
-set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -138,7 +138,7 @@ bindsym $mod+Shift+9 move container to workspace $tag9
 bindsym $mod+Shift+0 move container to workspace $tag10
 
 #startup commands
-exec --no-startup-id google-chrome
+exec --no-startup-id brave-browser
 exec --no-startup-id gnome-terminal
 exec --no-startup-id intellij-idea-ultimate
 exec --no-startup-id pasystray # Volumeicon
@@ -153,8 +153,13 @@ exec_always --no-startup-id autorandr --change # Setup displays
 assign [class="(?i)Gnome-terminal"] $tag1
 assign [class="(?i)IDEA"] $tag2
 assign [class="(?i)Chromium"] $tag3
+assign [class="(?i)Chromium"] $tag3
+assign [class="(?i)brave-browser"] $tag3
+assign [title="(?i)brave"] $tag3
 assign [class="(?i)google-chrome"] $tag3
+assign [title="(?i)Google Chrome"] $tag3
 assign [class="(?i)Teams"] $tag4
+assign [title="(?i)Teams"] $tag4
 assign [class="(?i)Slack"] $tag5
 assign [class="(?i)libreoffice-startcenter"] $tag8
 assign [class="(?i)soffice"] $tag8
@@ -229,11 +234,11 @@ set $Locker i3lock && sleep 1
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+    bindsym e exec --no-startup-id ! sudo killall -SIGINT openconnect && i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id ! sudo killall -SIGINT openconnect && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id ! sudo killall -SIGINT openconnect && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id ! sudo killall -SIGINT openconnect && systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ! sudo killall -SIGINT openconnect && systemctl poweroff -i, mode "default"  
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
