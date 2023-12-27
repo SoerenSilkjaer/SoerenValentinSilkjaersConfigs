@@ -140,13 +140,12 @@ bindsym $mod+Shift+0 move container to workspace $tag10
 exec --no-startup-id powerprofilesctl set balanced
 exec --no-startup-id brave-browser
 exec --no-startup-id gnome-terminal
-exec --no-startup-id intellij-idea-ultimate
+exec --no-startup-id bash ~/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh
 exec --no-startup-id pasystray # Volumeicon
 exec --no-startup-id bash ~/bin/aws-rotate-keys.sh
 exec setxkbmap -layout us -variant mac
 exec_always --no-startup-id nm-applet # Network icon
 exec_always --no-startup-id autorandr --change # Setup displays
-#exec_always feh --bg-scale /home/soren/Pictures/vim_reference_card.png
 
 
 # Program assigns

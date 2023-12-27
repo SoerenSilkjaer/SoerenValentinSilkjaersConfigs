@@ -1,6 +1,6 @@
 # Must be run from this folder
 
-sudo apt install iw openconnect lm-sensors fonts-font-awesome alsa-utils i3 i3blocks pip arandr trash-cli vim
+sudo apt install iw openconnect lm-sensors fonts-font-awesome alsa-utils i3 i3blocks pip arandr trash-cli vim pasystray jq
 
 
 ln -s git/gitconfig ~/.gitconfig
