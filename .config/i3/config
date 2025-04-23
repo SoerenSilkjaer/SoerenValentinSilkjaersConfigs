@@ -45,6 +45,7 @@ bindsym $mod+d exec i3-dmenu-desktop
 
 # Run autorandr
 bindsym $mod+Shift+d exec autorandr --change
+bindsym $mod+Shift+f exec xrandr --output eDP-1 --mode 1920x1080 --rate 60.01
 
 # change focus
 bindsym $mod+j focus left
@@ -138,15 +139,14 @@ bindsym $mod+Shift+0 move container to workspace $tag10
 
 #startup commands
 exec --no-startup-id powerprofilesctl set balanced
-exec --no-startup-id brave-browser
+exec --no-startup-id google-chrome
 exec --no-startup-id gnome-terminal
 exec --no-startup-id bash ~/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh
 exec --no-startup-id pasystray # Volumeicon
 exec --no-startup-id bash ~/bin/aws-rotate-keys.sh
 exec setxkbmap -layout us -variant mac
 exec_always --no-startup-id nm-applet # Network icon
-exec_always --no-startup-id autorandr --change # Setup displays
-
+exec --no-startup-id autorandr --change
 
 # Program assigns
 # Check class by using xprop command
@@ -223,22 +223,24 @@ bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -R
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 
 # Sreen brightness controls
-# enable passwordless sudo for ybacklight. echo "soren ALL=NOPASSWD: /usr/bin/ybacklight" > /etc/sudoers.d/ybacklight
-bindsym XF86MonBrightnessUp exec sudo ybacklight -inc 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec sudo ybacklight -dec 5 # decrease screen brightness
+# apt install brightnessctl
+# enable passwordless sudo for brithnessctl first try to restart after install. If that does not work run the following command and 
+# restart afterwards: sudo usermod -aG video ${USER}
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
 
 # Shutdown, reboot, lock screen
-set $Locker i3lock && sleep 1
+set $Locker i3lock -c 000000 -i /home/soren/src/git/SoerenValentinSilkjaersConfigs/locked.png
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id ! sudo bash ~/bin/jp_vpn.sh off && i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id ! sudo bash ~/bin/jp_vpn.sh off && i3lock && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id ! sudo bash ~/bin/jp_vpn.sh off && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id ! sudo bash ~/bin/jp_vpn.sh off && systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id ! sudo killall -SIGINT openconnect && systemctl poweroff -i, mode "default"  
+    bindsym l exec $Locker, mode "default"
+    bindsym e exec i3-msg exit, mode "default"
+    bindsym s exec i3lock -c 000000 -i /home/soren/src/git/SoerenValentinSilkjaersConfigs/locked.png && systemctl suspend, mode "default"
+    bindsym h exec i3lock -c 000000 -i /home/soren/src/git/SoerenValentinSilkjaersConfigs/locked.png && systemctl hibernate, mode "default"
+    bindsym r exec systemctl reboot, mode "default"
+    bindsym Shift+s exec systemctl poweroff -i, mode "default"  
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
